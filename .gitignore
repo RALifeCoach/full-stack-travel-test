@@ -1,0 +1,48 @@
+.idea
+toptal/.idea
+
+# dependencies
+toptal/node_modules
+toptal/.pnp
+toptal/.pnp.js
+
+# testing
+toptal/coverage
+
+# production
+toptal/build
+
+# misc
+toptal/.DS_Store
+toptal/.env.local
+toptal/.env.development.local
+toptal/.env.test.local
+toptal/.env.production.local
+
+toptal/npm-debug.log*
+toptal/yarn-debug.log*
+toptal/yarn-error.log*
+
+toptal-server/.idea
+
+# dependencies
+toptal-server/node_modules
+toptal-server/.pnp
+toptal-server/.pnp.js
+
+# testing
+toptal-server/coverage
+
+# production
+toptal-server/build
+
+# misc
+toptal-server/.DS_Store
+toptal-server/.env.local
+toptal-server/.env.development.local
+toptal-server/.env.test.local
+toptal-server/.env.production.local
+
+toptal-server/npm-debug.log*
+toptal-server/yarn-debug.log*
+toptal-server/yarn-error.log*

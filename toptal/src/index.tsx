@@ -1,0 +1,26 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './Main/App';
+import * as serviceWorker from './serviceWorker';
+import MainProvider from "./Main/MainProvider";
+import {ThemeProvider} from "@material-ui/styles";
+import theme from "./theme";
+
+// @ts-ignore
+const config = window.toptalConfig;
+
+ReactDOM.render(
+  <React.StrictMode>
+    <ThemeProvider theme={theme}>
+      <MainProvider
+        config={config}
+      >
+        <App/>
+      </MainProvider>
+    </ThemeProvider>
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+
+serviceWorker.unregister();
