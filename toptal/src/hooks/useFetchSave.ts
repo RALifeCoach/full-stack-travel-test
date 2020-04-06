@@ -56,7 +56,7 @@ const useFetchSave = () => {
               dispatch({type: 'failure', value: new Error('unknown error')});
               return;
             }
-            if (response.status && response.status === 'Failure') {
+            if (response.status && response.status === 'failure') {
               dispatch({type: 'failure', value: new Error(response.error)});
               return;
             }

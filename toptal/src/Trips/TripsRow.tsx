@@ -82,7 +82,7 @@ const TripsRow = ({trip, refreshTrips}: IProps) => {
         )}
         {windowSize !== 'tablet' && windowSize !== 'phone' && (
           <TableCell>
-            <Tooltip title={trip.comments}>
+            <Tooltip title={trip.comments || ''}>
               <div style={commentStyle}>
                 {trip.comments}
               </div>

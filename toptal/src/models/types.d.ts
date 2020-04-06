@@ -3,8 +3,8 @@ declare module 'General' {
 
   export type IDispatch = (action: IAction) => void
 
-  export interface ISelect {
-    value: number,
+  export interface IOption {
+    value: number|string,
     label: any
   }
 

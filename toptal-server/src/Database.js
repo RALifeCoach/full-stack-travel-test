@@ -27,6 +27,12 @@ class Database {
       callback(rows);
     });
   }
+
+  exec(sql, callback) {
+    this.connection.query(sql, (err, rows) => {
+      callback(err);
+    });
+  }
 }
 
 module.exports = new Database();

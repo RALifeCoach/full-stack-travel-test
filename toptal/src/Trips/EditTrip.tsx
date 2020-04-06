@@ -88,7 +88,7 @@ const EditTrip = ({trip, open, onClose, refreshTrips}: IProps) => {
     }
   }, [status, onClose, refreshTrips]);
 
-  const width = 400;
+  const width = 350;
   const height = 600;
   return (
     <>
@@ -160,6 +160,7 @@ const EditTrip = ({trip, open, onClose, refreshTrips}: IProps) => {
               Cancel
             </Button>
             <Button
+              variant="outlined"
               onClick={() => handleUpdate(state)}
             >
               Save

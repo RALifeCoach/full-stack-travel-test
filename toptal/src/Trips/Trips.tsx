@@ -41,6 +41,7 @@ const Trips = () => {
               <TripsRow
                 refreshTrips={refreshTrips}
                 trip={trip}
+                key={trip.id}
               />
             ))}
           </TableBody>

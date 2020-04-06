@@ -52,7 +52,7 @@ const Login = () => {
 
   return (
     <>
-      <Paper elevation={1} style={{margin: 'auto', width: 500, padding: 16, marginTop: 200}}>
+      <Paper elevation={1} style={{margin: 'auto', width: 300, padding: 16, marginTop: 200}}>
         <Typography variant="h2">Toptal Travel Login</Typography>
         <Spacer height={16}/>
         <form onSubmit={handleLogin}>

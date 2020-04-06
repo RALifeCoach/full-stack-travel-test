@@ -52,7 +52,7 @@ const SnackMessage = (props: IProps) => {
         horizontal: 'left',
       }}
       open={open}
-      autoHideDuration={duration || 15000}
+      autoHideDuration={duration || 5000}
       onClose={onClose}
     >
       <SnackbarContent
