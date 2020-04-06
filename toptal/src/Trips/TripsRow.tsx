@@ -13,9 +13,10 @@ import TripsRowButtons from "./TripsRowButtons";
 
 interface IProps {
   trip: TripDetails;
+  refreshTrips: () => void;
 }
 
-const TripsRow = ({trip}: IProps) => {
+const TripsRow = ({trip, refreshTrips}: IProps) => {
   const {mainState: {windowSize}} = useContext(MainContext);
 
   const daysToDeparture = useMemo(() => {
@@ -50,11 +51,11 @@ const TripsRow = ({trip}: IProps) => {
           {windowSize === 'phone'
             ? (
               <FlexColumn>
-                <DateFormat date={trip.startDate} format={dateFormat}/>
+                <DateFormat date={trip.startDate || ''} format={dateFormat}/>
                 <div>to</div>
                 {trip.endDate
                   ? (
-                    <DateFormat date={trip.endDate} format={dateFormat}/>
+                    <DateFormat date={trip.endDate || ''} format={dateFormat}/>
                   )
                   : (
                     <div>Unknown</div>
@@ -63,7 +64,7 @@ const TripsRow = ({trip}: IProps) => {
               </FlexColumn>
             )
             : (
-              <DateFormat date={trip.startDate} format={dateFormat}/>
+              <DateFormat date={trip.startDate || ''} format={dateFormat}/>
             )
           }
         </TableCell>
@@ -71,7 +72,7 @@ const TripsRow = ({trip}: IProps) => {
           <TableCell>
             {Boolean(trip.endDate)
               ? (
-                <DateFormat date={trip.endDate} format={dateFormat}/>
+                <DateFormat date={trip.endDate || ''} format={dateFormat}/>
               )
               : (
                 <div>--</div>
@@ -89,7 +90,7 @@ const TripsRow = ({trip}: IProps) => {
           </TableCell>
         )}
         <TableCell align="right">{daysToDeparture}</TableCell>
-        <TripsRowButtons trip={trip}/>
+        <TripsRowButtons trip={trip} refreshTrips={refreshTrips}/>
       </TableRow>
       {(windowSize === 'tablet' || windowSize === 'phone') && Boolean(trip.comments) && (
         <TableRow>

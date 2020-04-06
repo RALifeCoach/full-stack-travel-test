@@ -17,11 +17,11 @@ declare module 'General' {
   }
 
   export interface TripDetails {
-    id: number;
-    destination: string;
-    startDate: string;
-    endDate: string;
-    comments: string;
+    id?: number;
+    destination?: string;
+    startDate?: string;
+    endDate?: string;
+    comments?: string;
   }
 
   export interface IFetchSaveState {

@@ -24,7 +24,6 @@ class Database {
         throw err;
       }
 
-      console.log(rows);
       callback(rows);
     });
   }

@@ -1,7 +1,5 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect} from "react";
 import {
-  Menu,
-  MenuItem,
   Paper,
   Table,
   TableBody,
@@ -12,59 +10,42 @@ import useFetchGet from "../hooks/useFetchGet";
 import {TripDetails} from "General";
 import TripsHeader from "./TripsHeader";
 import TripsRow from "./TripsRow";
+import FlexRow from "../shared/flex-grid/FlexRow";
+import TripsHeaderButtons from "./TripsHeaderButtons";
 
 const Trips = () => {
-  const [trips, fetchUsers] = useFetchGet();
-  const [anchorEl, setAnchorEl] = useState<Element | null>(null);
-
-  const handleClose = useCallback(() => {
-    setAnchorEl(null);
-  }, []);
-
+  const [trips, fetchTrips] = useFetchGet();
 
   useEffect(() => {
-    fetchUsers('api/trips');
-  }, [fetchUsers]);
+    fetchTrips('api/trips');
+  }, [fetchTrips]);
 
-  const handleEdit = useCallback(() => {
-
-  }, []);
-  const handleDelete = useCallback(() => {
-
-  }, []);
+  const refreshTrips = useCallback(() => {
+    fetchTrips('api/trips');
+  }, [fetchTrips]);
 
   return (
     <>
       <Paper elevation={1} style={{padding: 16, margin: '96px 16px 16px 16px'}}>
-        <Typography variant="h2">Trips</Typography>
+        <FlexRow justify="space-between">
+          <Typography variant="h2">Trips</Typography>
+          <TripsHeaderButtons
+            refreshTrips={refreshTrips}
+          />
+        </FlexRow>
         <Spacer height={16}/>
         <Table size="small">
           <TripsHeader/>
           <TableBody>
             {(trips?.data || []).map((trip: TripDetails) => (
-              <TripsRow trip={trip}/>
+              <TripsRow
+                refreshTrips={refreshTrips}
+                trip={trip}
+              />
             ))}
           </TableBody>
         </Table>
       </Paper>
-      <Menu
-        id="fade-menu"
-        anchorEl={anchorEl as Element}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "left"
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "left"
-        }}
-      >
-        <MenuItem onClick={handleEdit}>Edit</MenuItem>
-        <MenuItem onClick={handleDelete}>Delete</MenuItem>
-      </Menu>
     </>
   );
 };

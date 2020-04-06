@@ -13,12 +13,14 @@ import MainContext from "../Main/MainContext";
 import WarningDialog from "../shared/WarningDialog";
 import useFetchSave from "../hooks/useFetchSave";
 import UpdateHandling from "../shared/UpdateHandling";
+import EditTrip from "./EditTrip";
 
 interface IProps {
   trip: TripDetails;
+  refreshTrips: () => void;
 }
 
-const TripsRowButtons = ({trip}: IProps) => {
+const TripsRowButtons = ({trip, refreshTrips}: IProps) => {
   const {mainState: {windowSize}} = useContext(MainContext);
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [openDelete, setOpenDelete] = useState(false);
@@ -40,9 +42,10 @@ const TripsRowButtons = ({trip}: IProps) => {
 
   useEffect(() => {
     if (deleteStatus.status === 'success') {
+      refreshTrips();
       setOpenDelete(false);
     }
-  }, [deleteStatus]);
+  }, [deleteStatus, refreshTrips]);
 
   return (
     <>
@@ -109,11 +112,19 @@ const TripsRowButtons = ({trip}: IProps) => {
         middleText={`Are you sure you want to delete this trip?`}
         proceedText="Delete"
         cancelText="Return"
-        onClose={() => setOpenEdit(false)}
+        onClose={() => setOpenDelete(false)}
         onProceed={handleDelete}
         height={250}
         icon="delete"
       />
+      {openEdit && (
+        <EditTrip
+          trip={trip}
+          open={openEdit}
+          onClose={() => setOpenEdit(false)}
+          refreshTrips={refreshTrips}
+        />
+      )}
       <UpdateHandling status={deleteStatus} title="Deleting trip"/>
     </>
   );
