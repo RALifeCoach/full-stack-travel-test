@@ -38,11 +38,10 @@ toptal-server/build
 
 # misc
 toptal-server/.DS_Store
-toptal-server/.env.local
-toptal-server/.env.development.local
-toptal-server/.env.test.local
-toptal-server/.env.production.local
+toptal-server/.env
 
 toptal-server/npm-debug.log*
 toptal-server/yarn-debug.log*
 toptal-server/yarn-error.log*
+
+toptal-server/private.pem

@@ -3,9 +3,12 @@ const bodyParser = require('body-parser');
 var cors = require('cors');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
-const Database = require('./src/Database');
 const apiRoute = require('./src/ApiCalls');
-const bcrypt = require('bcrypt');
+const dotenv = require('dotenv');
+const Database = require('./src/Database');
+
+dotenv.config();
+console.log(process.env.DB_HOST);
 
 function isAuthorized(req, res, next) {
   if (typeof req.headers.authorization !== "undefined") {
@@ -98,6 +101,7 @@ app.post('/setPassword/', (req, res) => {
 
 app.use('/api', isAuthorized, apiRoute);
 
-app.listen(3010, () => {
-  console.log("Server is listening on port 3010");
+app.listen(process.env.PORT, () => {
+  console.log(`Server is listening on port ${process.env.PORT}`);
+  Database.connect();
 });
