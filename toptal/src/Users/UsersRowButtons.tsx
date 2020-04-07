@@ -15,6 +15,7 @@ import useFetchSave from "../hooks/useFetchSave";
 import EditUser from "./EditUser";
 import Loading from "../shared/Loading";
 import SnackMessage from "../shared/SnackMessage";
+import {v4 as uuidV4} from "uuid";
 
 interface IProps {
   user: User;
@@ -25,6 +26,7 @@ const UsersRowButtons = ({user, refreshUsers}: IProps) => {
   const {mainState: {windowSize}} = useContext(MainContext);
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [openDelete, setOpenDelete] = useState(false);
+  const [openReset, setOpenReset] = useState(false);
   const [openDeleteError, setOpenDeleteError] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
 
@@ -33,10 +35,20 @@ const UsersRowButtons = ({user, refreshUsers}: IProps) => {
   }, []);
 
   const [deleteStatus, performDelete] = useFetchSave();
+  const [resetStatus, performReset] = useFetchSave();
   const handleDelete = useCallback(() => {
     const body = {id: user.id};
     performDelete(body, 'api/deleteUser');
   }, [user, performDelete]);
+
+  const handleReset = useCallback(() => {
+    const body = {
+      id: user?.id || 0,
+      password: uuidV4().toString(),
+    };
+    alert(`To reset the password use url: ${window.location.origin}/?id=${body.password}`);
+    performReset(body, 'api/resetPassword');
+  }, [user, performReset]);
 
   useEffect(() => {
     if (deleteStatus.status === 'success') {
@@ -48,6 +60,12 @@ const UsersRowButtons = ({user, refreshUsers}: IProps) => {
       setOpenDeleteError(true);
     }
   }, [deleteStatus, refreshUsers]);
+
+  useEffect(() => {
+    if (resetStatus.status === 'success') {
+      setOpenReset(false);
+    }
+  }, [resetStatus]);
 
   return (
     <>
@@ -86,6 +104,18 @@ const UsersRowButtons = ({user, refreshUsers}: IProps) => {
                   <Icon>delete</Icon>
                 </Tooltip>
               </IconButton>
+              <Spacer/>
+              <IconButton
+                onClick={() => setOpenReset(true)}
+              >
+                <Tooltip
+                  placement="top"
+                  title="Reset"
+                  arrow
+                >
+                  <Icon>vpn_key</Icon>
+                </Tooltip>
+              </IconButton>
             </FlexRow>
           )
         }
@@ -107,6 +137,7 @@ const UsersRowButtons = ({user, refreshUsers}: IProps) => {
       >
         <MenuItem onClick={() => setOpenEdit(true)}>Edit</MenuItem>
         <MenuItem onClick={() => setOpenDelete(true)}>Delete</MenuItem>
+        <MenuItem onClick={() => setOpenReset(true)}>Reset</MenuItem>
       </Menu>
       <WarningDialog
         open={openDelete}
@@ -116,6 +147,17 @@ const UsersRowButtons = ({user, refreshUsers}: IProps) => {
         cancelText="Return"
         onClose={() => setOpenDelete(false)}
         onProceed={handleDelete}
+        height={250}
+        icon="delete"
+      />
+      <WarningDialog
+        open={openReset}
+        topText="Warning: Reset User"
+        middleText={`Are you sure you want to reset the password for this user?`}
+        proceedText="Reset"
+        cancelText="Return"
+        onClose={() => setOpenReset(false)}
+        onProceed={handleReset}
         height={250}
         icon="delete"
       />

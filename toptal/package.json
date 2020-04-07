@@ -16,14 +16,17 @@
     "@types/react": "^16.9.32",
     "@types/react-dom": "^16.9.6",
     "@types/react-router-dom": "^5.1.3",
+    "@types/uuid": "^7.0.2",
     "classnames": "^2.2.6",
     "material-design-icons": "^3.0.1",
     "moment": "^2.24.0",
+    "query-string": "^6.12.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "uuid": "^7.0.3"
   },
   "scripts": {
     "start": "react-scripts start",

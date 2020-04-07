@@ -16,6 +16,7 @@ import UpdateHandling from "../shared/UpdateHandling";
 import Spacer from "../shared/Spacer";
 import useFetchSave from "../hooks/useFetchSave";
 import SelectField from "../shared/SelectField";
+import {v4 as uuidV4} from 'uuid';
 
 interface IProps {
   user: User;
@@ -45,7 +46,6 @@ const EditUser = ({user, open, onClose, refreshUsers}: IProps) => {
   useEffect(() => {
     dispatch({type: 'idError', value: Boolean(userId) ? '' : 'Required'});
   }, [dispatch, userId]);
-
   useEffect(() => {
     dispatch({type: 'nameError', value: Boolean(userName) ? '' : 'Required'});
   }, [dispatch, userName]);
@@ -64,9 +64,12 @@ const EditUser = ({user, open, onClose, refreshUsers}: IProps) => {
       userId,
       userName,
       role,
-    } as User;
+    } as any;
     if (id) {
       body.id = id;
+    } else {
+      body.password = uuidV4().toString();
+      alert(`For initial login use url: ${window.location.origin}/?id=${body.password}`);
     }
     performUpdate(body, 'api/updateUser/');
   }, [performUpdate]);

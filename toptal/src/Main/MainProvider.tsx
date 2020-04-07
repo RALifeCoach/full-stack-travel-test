@@ -12,7 +12,7 @@ const MainProvider = ({children, config}: IProps) => {
   const [mainState, mainDispatch] = useReducer((state: IMainContextState, action: IAction) => {
     if (action.type === 'user') {
       if (action.value) {
-        const menu = action.value.role === 'users' ? 'users' : 'trips';
+        const menu = action.value.role === 'admin' ? 'users' : 'trips';
         return {...state, [action.type]: action.value, menu};
       }
       return {...state, [action.type]: action.value};

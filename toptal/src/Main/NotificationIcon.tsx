@@ -1,10 +1,12 @@
 import React, {useCallback, useContext, useMemo, useState} from 'react';
 import {Fab, Menu, MenuItem,} from '@material-ui/core';
 import MainContext from "./MainContext";
+import ChangePassword from "./ChangePassword";
 
 const NotificationIcon = () => {
   const {mainDispatch, mainState: {user}} = useContext(MainContext);
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
+  const [openPassword, setOpenPassword] = useState(false);
 
   const handleClose = useCallback(() => {
     setAnchorEl(null);
@@ -15,6 +17,11 @@ const NotificationIcon = () => {
     mainDispatch({type: 'user', value: null});
     handleClose();
   }, [mainDispatch, handleClose]);
+
+  const handleChangePassword = useCallback(() => {
+    setOpenPassword(true);
+    handleClose();
+  }, [handleClose]);
 
   const displayInitials = useMemo(() => {
     if (!user) {
@@ -31,7 +38,7 @@ const NotificationIcon = () => {
       <Fab
         size="small"
         style={{marginTop: 6}}
-        onClick={event => setAnchorEl(event.currentTarget)}
+        onClick={Boolean(user) ? event => setAnchorEl(event.currentTarget) : undefined}
       >
         {displayInitials}
       </Fab>
@@ -50,8 +57,15 @@ const NotificationIcon = () => {
           horizontal: "left"
         }}
       >
+        <MenuItem onClick={handleChangePassword}>Change Password</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
+      {openPassword && (
+        <ChangePassword
+          open={openPassword}
+          onClose={() => setOpenPassword(false)}
+        />
+      )}
     </>
   );
 };

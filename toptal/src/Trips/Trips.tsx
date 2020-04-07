@@ -12,6 +12,7 @@ import TripsHeader from "./TripsHeader";
 import TripsRow from "./TripsRow";
 import FlexRow from "../shared/flex-grid/FlexRow";
 import TripsHeaderButtons from "./TripsHeaderButtons";
+import FetchHandling from "../shared/FetchHandling";
 
 const Trips = () => {
   const [trips, fetchTrips] = useFetchGet();
@@ -47,6 +48,7 @@ const Trips = () => {
           </TableBody>
         </Table>
       </Paper>
+      <FetchHandling status={trips} title="Loading trips..."/>
     </>
   );
 };
