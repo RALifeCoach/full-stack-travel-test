@@ -12,13 +12,19 @@ The project contains 2 sub-projects: toptal (the FE code) and total-server
       - DB_USER - for the DB connection
       - DB_PASSWORD - for the DB connection
       - DB_DATABASE - for the DB connection
-- To start the server use `node toptal-server/index.js`
+- To start the server:
+  - `cd toptal-server`
+  - `npm i`
+  - `node index.js`
 
 ###Front-End
 - This is written using React. It requires 1 private file:
   - **public/config.js** - this contains config options:
     - **API_URL** - the path to the node server application
-- To start the application use `cd toptal;npm start`
+- To start the application:
+  - `cd toptal`
+  - `npm i`
+  - `npm start`
 
 ###Database
 - The database is mysql version 8. It is pretty straightforward and could

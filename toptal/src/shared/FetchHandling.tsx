@@ -23,7 +23,7 @@ const FetchHandling = (props: IProps) => {
       }
       setError(status.exception.message);
     }
-  }, [status.status, status.exception]);
+  }, [status.status, status.exception, mainDispatch]);
 
   return (
     <>
