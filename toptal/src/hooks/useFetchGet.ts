@@ -67,8 +67,8 @@ const useFetchGet = () => {
               dispatch({type: 'failure', value: new Error('unknown error')});
               return;
             }
-            if (response.detail) {
-              dispatch({type: 'failure', value: new Error(response.detail)});
+            if (response.status === 'failure') {
+              dispatch({type: 'failure', value: new Error(response.message)});
               return;
             }
             dispatch({type: 'success', value: response});

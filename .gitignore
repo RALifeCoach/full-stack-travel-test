@@ -14,16 +14,13 @@ toptal/build
 
 # misc
 toptal/.DS_Store
-toptal/.env.local
-toptal/.env.development.local
-toptal/.env.test.local
-toptal/.env.production.local
 
 toptal/npm-debug.log*
 toptal/yarn-debug.log*
 toptal/yarn-error.log*
 
 toptal-server/.idea
+toptal/public/config.js
 
 # dependencies
 toptal-server/node_modules

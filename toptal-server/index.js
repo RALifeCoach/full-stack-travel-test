@@ -6,6 +6,7 @@ const fs = require('fs');
 const apiRoute = require('./src/ApiCalls');
 const dotenv = require('dotenv');
 const Database = require('./src/Database');
+const bcrypt = require('bcrypt');
 
 dotenv.config();
 console.log(process.env.DB_HOST);
@@ -20,8 +21,8 @@ function isAuthorized(req, res, next) {
         throw new Error("Not Authorized");
       }
       if (user.body.expiry < new Date().getTime()) {
-        res.status(500).json({error: "Token Expired"});
-        throw new Error("Not Authorized");
+        res.json({status: 'failure', message: 'Token Expired'});
+        return;
       }
       req.role = user.body.role;
       req.userId = user.body.id;
@@ -56,7 +57,7 @@ app.post('/login/', (req, res) => {
       }
 
       const privateKey = fs.readFileSync('./private.pem', 'utf8');
-      const expiry = new Date().getTime() + (60 * 60 * 1000);
+      const expiry = new Date().getTime() + (24 * 60 * 60 * 1000);
       const role = rows[0].role;
       const userName = rows[0].userName;
       const userId = req.body.userId;

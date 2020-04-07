@@ -44,7 +44,11 @@ const EditUser = ({user, open, onClose, refreshUsers}: IProps) => {
   const {id, userId, idError, userName, nameError, role, roleError} = state;
 
   useEffect(() => {
-    dispatch({type: 'idError', value: Boolean(userId) ? '' : 'Required'});
+    if (!userId) {
+      dispatch({type: 'idError', value: 'Required'});
+    }
+    const validEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(userId);
+    dispatch({type: 'idError', value: validEmail ? '' : 'Not a valid email'});
   }, [dispatch, userId]);
   useEffect(() => {
     dispatch({type: 'nameError', value: Boolean(userName) ? '' : 'Required'});

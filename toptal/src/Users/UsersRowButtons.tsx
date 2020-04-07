@@ -70,7 +70,7 @@ const UsersRowButtons = ({user, refreshUsers}: IProps) => {
   return (
     <>
       <TableCell>
-        {windowSize === 'phone'
+        {windowSize === 'phone' || windowSize === 'tablet'
           ? (
             <IconButton
               style={{width: 24}}
@@ -137,7 +137,7 @@ const UsersRowButtons = ({user, refreshUsers}: IProps) => {
       >
         <MenuItem onClick={() => setOpenEdit(true)}>Edit</MenuItem>
         <MenuItem onClick={() => setOpenDelete(true)}>Delete</MenuItem>
-        <MenuItem onClick={() => setOpenReset(true)}>Reset</MenuItem>
+        <MenuItem onClick={() => setOpenReset(true)}>Password Reset</MenuItem>
       </Menu>
       <WarningDialog
         open={openDelete}

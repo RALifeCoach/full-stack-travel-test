@@ -1,6 +1,7 @@
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useContext, useEffect, useState} from 'react';
 import Loading from "./Loading";
 import SnackMessage from "./SnackMessage";
+import MainContext from "../Main/MainContext";
 
 export interface IProps {
   status: {status: string, response: any, exception: Error};
@@ -10,11 +11,15 @@ export interface IProps {
 const FetchHandling = (props: IProps) => {
   const { status, title } = props;
   const [error, setError] = useState('');
+  const {mainDispatch} = useContext(MainContext);
 
   useEffect(() => {
     if (status.status === 'failure') {
-      if (status.exception.message === 'Forbidden') {
-        throw new Error("You are not authorized to run this application.");
+      if (status.exception.message === 'Token Expired') {
+        alert("The security token has expired. Please login again.");
+        localStorage.removeItem('toptal:user');
+        mainDispatch({type: 'user', value: null});
+        return;
       }
       setError(status.exception.message);
     }
