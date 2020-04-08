@@ -8,53 +8,29 @@ The project contains 2 sub-projects: toptal (the FE code) and total-server
   - **private.pem** - this contains the private key that supports the JWT encryption.
   - **.env** - this contains the environment variables
       - PORT - the port to watch for incoming RestAPI calls
-      - DB_HOST - for the DB connection
       - DB_USER - for the DB connection
       - DB_PASSWORD - for the DB connection
       - DB_DATABASE - for the DB connection
-- To start the server:
-  - `cd toptal-server`
-  - `npm i`
-  - `node index.js`
 
 ###Front-End
 - This is written using React. It requires 1 private file:
   - **public/config.js** - this contains config options:
     - **API_URL** - the path to the node server application
-- To start the application:
-  - `cd toptal`
-  - `npm i`
-  - `npm start`
 
 ###Database
-- The database is mysql version 8. It is pretty straightforward and could
-probably run on older versions. To begin the application:
-  - run the startup script `startup.sql`. It will create the DB
-and the initial tables.
-  - add a row to the user table for the super user
-```
-INSERT INTO `toptal`.`users` (
-    `userId`,
-    `userName`,
-    `password`,
-    `role`
-)
-VALUES (
-    <the admin user id (valid email address)>,
-    <the admin fiull name>,
-    <a plain text password>,
-    'super'
-);
-```
-  - then run `toptal-server/password.js`. This will encrypt the 
-  plain text password. Be sure to only run this once. From now on
-  all user maintenance should happen within the application.
+- The database is mysql version 5.7. To begin the application:
+  - from the root folder run docker-compose up
+  - once everything has settled down, open MySQLWorkbench and connect
+  to the DB running at localhost
+  - run the startup script `startup.sql`, found within the toptal-db sub-project.
+  It will create the DB tables and add the admin.
+  - then run localhost:3000?id=admin123 - this will force the admin user to change
+  their password (the admin user cannot login until this is done.)
+  - you can now login as admin
 
 ##Project Notes
 - This code was written without knowledge of the final DevOps configuration.
-If is to be run in a Docker environment, then it can be easily Dockerized. 
-If the final environment is AWS, the node application can be added to an ECS
-container and the Front-End code added to a an S3 storage as a web application.
+It has been configured to run in a docker environment, for now. 
 - Given that the final DevOps is unknown, there is no support for emails. The user
 id is a valid email address and support could be added fairly easily. In lieu of
 email support, when a user is created or their password reset, the FE displays 

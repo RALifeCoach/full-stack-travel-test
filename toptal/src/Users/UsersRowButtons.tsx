@@ -92,18 +92,22 @@ const UsersRowButtons = ({user, refreshUsers}: IProps) => {
                   <Icon>create</Icon>
                 </Tooltip>
               </IconButton>
-              <Spacer/>
-              <IconButton
-                onClick={() => setOpenDelete(true)}
-              >
-                <Tooltip
-                  placement="top"
-                  title="Delete"
-                  arrow
-                >
-                  <Icon>delete</Icon>
-                </Tooltip>
-              </IconButton>
+              {user.userId !== 'admin' && (
+                <>
+                  <Spacer/>
+                  <IconButton
+                    onClick={() => setOpenDelete(true)}
+                  >
+                    <Tooltip
+                      placement="top"
+                      title="Delete"
+                      arrow
+                    >
+                      <Icon>delete</Icon>
+                    </Tooltip>
+                  </IconButton>
+                </>
+              )}
               <Spacer/>
               <IconButton
                 onClick={() => setOpenReset(true)}

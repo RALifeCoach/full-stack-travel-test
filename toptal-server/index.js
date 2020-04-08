@@ -9,7 +9,6 @@ const Database = require('./src/Database');
 const bcrypt = require('bcrypt');
 
 dotenv.config();
-console.log(process.env.DB_HOST);
 
 function isAuthorized(req, res, next) {
   if (typeof req.headers.authorization !== "undefined") {
@@ -50,8 +49,8 @@ app.post('/login/', (req, res) => {
       return;
     }
 
-    bcrypt.compare(req.body.password, rows[0].password, function(err, success) {
-      if(!success) {
+    bcrypt.compare(req.body.password, rows[0].password, function (err, success) {
+      if (!success) {
         res.status(500).json({error: "Not Authorized"});
         return;
       }

@@ -48,7 +48,7 @@ const EditUser = ({user, open, onClose, refreshUsers}: IProps) => {
       dispatch({type: 'idError', value: 'Required'});
     }
     const validEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(userId);
-    dispatch({type: 'idError', value: validEmail ? '' : 'Not a valid email'});
+    dispatch({type: 'idError', value: validEmail || userId === 'admin' ? '' : 'Not a valid email'});
   }, [dispatch, userId]);
   useEffect(() => {
     dispatch({type: 'nameError', value: Boolean(userName) ? '' : 'Required'});
@@ -119,6 +119,7 @@ const EditUser = ({user, open, onClose, refreshUsers}: IProps) => {
               onChange={event => dispatch({type: 'userId', value: event.target.value})}
               error={Boolean(idError)}
               helperText={idError}
+              disabled={userId === 'admin'}
             />
             <Spacer height={16}/>
             <Typography variant={"subtitle1"}>User Name</Typography>
