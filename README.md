@@ -1,7 +1,7 @@
 #Toptal Travel Readme
 ##Project structure
-The project contains 2 sub-projects: toptal (the FE code) and total-server
-(the BE code).
+The project contains 3 sub-projects: toptal (the FE code), toptal-db
+ (the DB startup script) and total-server (the BE code).
 
 ###Server
 - This is written in node.js. It requires 2 private files:
@@ -18,15 +18,18 @@ The project contains 2 sub-projects: toptal (the FE code) and total-server
     - **API_URL** - the path to the node server application
 
 ###Database
-- The database is mysql version 5.7. To begin the application:
-  - from the root folder run docker-compose up
-  - once everything has settled down, open MySQLWorkbench and connect
-  to the DB running at localhost
-  - run the startup script `startup.sql`, found within the toptal-db sub-project.
-  It will create the DB tables and add the admin.
-  - then run localhost:3000?id=admin123 - this will force the admin user to change
-  their password (the admin user cannot login until this is done.)
-  - you can now login as admin
+- The database is mysql version 5.7.
+- You will need to have MySQLWorkbench installed.
+
+###To begin the application:
+- from the root folder run docker-compose up
+- once everything has settled down, open MySQLWorkbench and connect
+to the DB running at localhost
+- run the startup script `startup.sql`, found within the toptal-db sub-project.
+It will create the DB tables and add the admin.
+- then run localhost:3000?id=admin123 - this will force the admin user to change
+their password (the admin user cannot login until this is done.)
+- you can now login as admin
 
 ##Project Notes
 - This code was written without knowledge of the final DevOps configuration.
