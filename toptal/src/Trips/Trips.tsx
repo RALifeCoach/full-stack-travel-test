@@ -18,11 +18,11 @@ const Trips = () => {
   const [trips, fetchTrips] = useFetchGet();
 
   useEffect(() => {
-    fetchTrips('api/trips');
+    fetchTrips('api/trips/query');
   }, [fetchTrips]);
 
   const refreshTrips = useCallback(() => {
-    fetchTrips('api/trips');
+    fetchTrips('api/trips/query');
   }, [fetchTrips]);
 
   return (

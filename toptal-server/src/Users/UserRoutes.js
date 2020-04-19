@@ -1,16 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const Database = require('./Database');
+const Database = require('../Database');
 const bcrypt = require('bcrypt');
+const userValidate = require('./UserValidate');
 
-router.get('/users/', (req, res) => {
+router.get('/query', (req, res) => {
   const sql = 'Select id, userId, userName, role from users';
   Database.query(sql, rows => {
     res.json(rows);
   });
 });
 
-router.post('/deleteUser/', (req, res) => {
+router.post('/delete', (req, res) => {
+  if (!userValidate.isValidDelete(req.body)) {
+    res.json({status: 'failure', message: 'Invalid message body'});
+    return;
+  }
   const sql = `Delete from users where id = ${req.body.id}`;
   Database.exec(sql, err => {
     if (err) {
@@ -21,7 +26,15 @@ router.post('/deleteUser/', (req, res) => {
   });
 });
 
-router.post('/updateUser/', (req, res) => {
+router.post('/update', (req, res) => {
+  if (req.body.id && !userValidate.isValidUpdate(req.body)) {
+    res.json({status: 'failure', message: 'Invalid message body'});
+    return;
+  }
+  if (!req.body.id && !userValidate.isValidInsert(req.body)) {
+    res.json({status: 'failure', message: 'Invalid message body'});
+    return;
+  }
   const sql = req.body.id
     ? `Update users
       set userId = '${req.body.userId}',
@@ -46,7 +59,7 @@ router.post('/updateUser/', (req, res) => {
   });
 });
 
-router.post('/changePassword/', (req, res) => {
+router.post('/changePassword', (req, res) => {
   const newPassword = bcrypt.hashSync(req.body.newPassword, 10);
   const sql = `SELECT * FROM users where id = '${req.userId}'`;
   Database.query(sql, (rows) => {
@@ -72,55 +85,12 @@ router.post('/changePassword/', (req, res) => {
   });
 });
 
-router.post('/resetPassword/', (req, res) => {
+router.post('/resetPassword', (req, res) => {
+  if (!userValidate.isValidReset(req.body)) {
+    res.json({status: 'failure', message: 'Invalid message body'});
+    return;
+  }
   const sql = `Update users set password = '${req.body.password}' where id = ${req.body.id}`;
-  Database.exec(sql, err => {
-    if (err) {
-      res.json({status: 'failure', message: err});
-      return;
-    }
-    res.json({status: 'success'});
-  });
-});
-
-router.get('/trips/', (req, res) => {
-  const sql = req.role === 'super'
-    ? 'Select * from Trips'
-    : `Select * from Trips where userId = ${req.userId}`;
-  Database.query(sql, rows => {
-    res.json(rows);
-  });
-});
-
-router.post('/deleteTrip/', (req, res) => {
-  const sql = `Delete from Trips where id = ${req.body.id}`;
-  Database.exec(sql, err => {
-    if (err) {
-      res.json({status: 'failure', message: err});
-      return;
-    }
-    res.json({status: 'success'});
-  });
-});
-
-router.post('/updateTrip/', (req, res) => {
-  const sql = req.body.id
-    ? `Update Trips
-      set destination = '${req.body.destination}',
-          startDate = '${req.body.startDate}',
-          endDate = ${req.body.endDate ? `'${req.body.endDate}'` : null},
-          comments = ${req.body.comments ? `'${req.body.comments}'` : null}
-      where id = ${req.body.id}`
-    : `insert into Trips
-      (destination, startDate, endDate, comments, userId) values
-      (
-        '${req.body.destination}', 
-        '${req.body.startDate}', 
-        ${req.body.endDate ? `'${req.body.endDate}'` : null}, 
-        ${req.body.comments ? `'${req.body.comments}'` : null}, 
-        ${req.userId}
-      )
-    `;
   Database.exec(sql, err => {
     if (err) {
       res.json({status: 'failure', message: err});

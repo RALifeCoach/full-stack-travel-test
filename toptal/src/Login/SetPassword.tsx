@@ -62,7 +62,7 @@ const SetPassword = ({id}: IProps) => {
       password: id,
       newPassword: new1Password,
     };
-    performUpdate(body, 'setPassword/');
+    performUpdate(body, 'setPassword');
   }, [performUpdate, id]);
 
   useEffect(() => {

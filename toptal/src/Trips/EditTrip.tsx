@@ -78,7 +78,7 @@ const EditTrip = ({trip, open, onClose, refreshTrips}: IProps) => {
     if (id) {
       body.id = id;
     }
-    performUpdate(body, 'api/updateTrip/');
+    performUpdate(body, 'api/trips/update/');
   }, [performUpdate]);
 
   useEffect(() => {

@@ -75,7 +75,7 @@ const EditUser = ({user, open, onClose, refreshUsers}: IProps) => {
       body.password = uuidV4().toString();
       alert(`For initial login use url: ${window.location.origin}/?id=${body.password}`);
     }
-    performUpdate(body, 'api/updateUser/');
+    performUpdate(body, 'api/users/update/');
   }, [performUpdate]);
 
   useEffect(() => {

@@ -11,11 +11,11 @@ import UsersHeaderButtons from "./UsersHeaderButtons";
 const Users = () => {
   const [users, fetchUsers] = useFetchGet();
   useEffect(() => {
-    fetchUsers('api/users');
+    fetchUsers('api/users/query');
   }, [fetchUsers]);
 
   const refreshUsers = useCallback(() => {
-    fetchUsers('api/users');
+    fetchUsers('api/users/query');
   }, [fetchUsers]);
 
   return (

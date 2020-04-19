@@ -37,7 +37,7 @@ const TripsRowButtons = ({trip, refreshTrips}: IProps) => {
   const [deleteStatus, performDelete] = useFetchSave();
   const handleDelete = useCallback(() => {
     const body = {id: trip.id};
-    performDelete(body, 'api/deleteTrip');
+    performDelete(body, 'api/trips/delete');
   }, [trip, performDelete]);
 
   useEffect(() => {
