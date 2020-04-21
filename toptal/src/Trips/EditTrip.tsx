@@ -7,16 +7,17 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  TextField,
   Typography
 } from "@material-ui/core";
 import FlexColumn from "../shared/flex-grid/FlexColumn";
 import FlexRow from "../shared/flex-grid/FlexRow";
 import UpdateHandling from "../shared/UpdateHandling";
-import Spacer from "../shared/Spacer";
 import useFetchSave from "../hooks/useFetchSave";
 import moment from "moment";
 import EditFieldDestination from "./EditFieldDestination";
+import EditFieldStartDate from "./EditFieldStartDate";
+import EditFieldEndDate from "./EditFieldEndDate";
+import EditFieldComments from "./EditFieldComments";
 
 interface IProps {
   trip: TripDetails;
@@ -127,7 +128,6 @@ const EditTrip = ({ trip, open, onClose, refreshTrips }: IProps) => {
             <EditFieldComments
               value={comments || ""}
               dispatch={dispatch}
-              dispatchType="comments"
             />
           </FlexColumn>
         </DialogContent>

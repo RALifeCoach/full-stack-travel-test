@@ -4,11 +4,13 @@ import './index.css';
 import App from './Main/App';
 import * as serviceWorker from './serviceWorker';
 import MainProvider from "./Main/MainProvider";
-import {ThemeProvider} from "@material-ui/styles";
+import { ThemeProvider } from "@material-ui/styles";
 import theme from "./theme";
 
 // @ts-ignore
-const config = window.toptalConfig;
+const config = {
+  API_URL: 'http://localhost:3010'
+};
 
 ReactDOM.render(
   <React.StrictMode>
@@ -16,7 +18,7 @@ ReactDOM.render(
       <MainProvider
         config={config}
       >
-        <App/>
+        <App />
       </MainProvider>
     </ThemeProvider>
   </React.StrictMode>,
