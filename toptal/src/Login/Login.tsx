@@ -36,7 +36,7 @@ const Login = () => {
   }, [password, dispatch]);
 
   const [login, performLogin] = useFetchSave();
-  const handleLogin = useCallback((event) => {
+  const handleLogin = useCallback((event:any) => {
     event.preventDefault();
     if (!idError && !passwordError) {
       performLogin({userId, password}, 'login');

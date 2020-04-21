@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useReducer} from "react";
-import {IAction, TripDetails} from "General";
+import React, { useCallback, useEffect, useReducer } from "react";
+import { IAction, TripDetails } from "General";
 import {
   Button,
   Dialog,
@@ -16,6 +16,7 @@ import UpdateHandling from "../shared/UpdateHandling";
 import Spacer from "../shared/Spacer";
 import useFetchSave from "../hooks/useFetchSave";
 import moment from "moment";
+import EditFieldDestination from "./EditFieldDestination";
 
 interface IProps {
   trip: TripDetails;
@@ -30,9 +31,9 @@ interface IEditTripState extends TripDetails {
   endDateError: string;
 }
 
-const EditTrip = ({trip, open, onClose, refreshTrips}: IProps) => {
+const EditTrip = ({ trip, open, onClose, refreshTrips }: IProps) => {
   const [state, dispatch] = useReducer((state: IEditTripState, action: IAction) => {
-    return {...state, [action.type]: action.value};
+    return { ...state, [action.type]: action.value };
   }, {
     ...trip,
     startDate: trip?.startDate ? trip.startDate.substr(0, 10) : '',
@@ -42,30 +43,22 @@ const EditTrip = ({trip, open, onClose, refreshTrips}: IProps) => {
     endDateError: ''
   });
 
-  const {id, destination, destinationError, startDate, startDateError, endDate, endDateError, comments} = state;
-
-  useEffect(() => {
-    dispatch({type: 'destinationError', value: Boolean(destination) ? '' : 'Required'});
-  }, [dispatch, destination]);
-
-  useEffect(() => {
-    dispatch({type: 'startDateError', value: Boolean(startDate) ? '' : 'Required'});
-  }, [dispatch, startDate]);
+  const { id, destination, destinationError, startDate, startDateError, endDate, endDateError, comments } = state;
 
   useEffect(() => {
     if (!endDate || !startDate) {
-      dispatch({type: 'endDateError', value: ''});
+      dispatch({ type: 'endDateError', value: '' });
       return;
     }
     const start = moment(startDate);
     const end = moment(endDate);
     const diff = end.diff(start, "days");
-    dispatch({type: 'endDateError', value: diff < 0 ? 'End < Start' : ''});
+    dispatch({ type: 'endDateError', value: diff < 0 ? 'End < Start' : '' });
   }, [dispatch, startDate, endDate]);
 
   const [status, performUpdate] = useFetchSave();
   const handleUpdate = useCallback((state) => {
-    const {id, destination, destinationError, startDate, startDateError, endDate, endDateError, comments} = state;
+    const { id, destination, destinationError, startDate, startDateError, endDate, endDateError, comments } = state;
     if (destinationError || startDateError || endDateError) {
       return;
     }
@@ -115,40 +108,26 @@ const EditTrip = ({trip, open, onClose, refreshTrips}: IProps) => {
         </DialogTitle>
         <DialogContent>
           <FlexColumn>
-            <Divider style={{width: '100%'}}/>
-            <Typography variant={"subtitle1"}>Destination</Typography>
-            <TextField
-              value={destination}
-              onChange={event => dispatch({type: 'destination', value: event.target.value})}
-              error={Boolean(destinationError)}
-              helperText={destinationError}
+            <Divider style={{ width: '100%' }} />
+            <EditFieldDestination
+              error={destinationError}
+              value={destination || ""}
+              dispatch={dispatch}
             />
-            <Spacer height={16}/>
-            <Typography variant={"subtitle1"}>Start Date</Typography>
-            <TextField
-              type="date"
-              value={startDate}
-              onChange={event => dispatch({type: 'startDate', value: event.target.value})}
-              error={Boolean(startDateError)}
-              helperText={startDateError}
+            <EditFieldStartDate
+              error={startDateError}
+              value={startDate || ""}
+              dispatch={dispatch}
             />
-            <Spacer height={16}/>
-            <Typography variant={"subtitle1"}>End Date</Typography>
-            <TextField
-              type="date"
-              value={endDate}
-              onChange={event => dispatch({type: 'endDate', value: event.target.value})}
-              error={Boolean(endDateError)}
-              helperText={endDateError}
+            <EditFieldEndDate
+              error={endDateError}
+              value={endDate || ""}
+              dispatch={dispatch}
             />
-            <Spacer height={16}/>
-            <Typography variant={"subtitle1"}>Comments</Typography>
-            <TextField
-              type="date"
-              multiline
-              rows={3}
-              value={comments}
-              onChange={event => dispatch({type: 'comments', value: event.target.value})}
+            <EditFieldComments
+              value={comments || ""}
+              dispatch={dispatch}
+              dispatchType="comments"
             />
           </FlexColumn>
         </DialogContent>
@@ -168,7 +147,7 @@ const EditTrip = ({trip, open, onClose, refreshTrips}: IProps) => {
           </FlexRow>
         </DialogActions>
       </Dialog>
-      <UpdateHandling status={status} title="Updating Travel..."/>
+      <UpdateHandling status={status} title="Updating Travel..." />
     </>
   );
 };
